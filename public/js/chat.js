@@ -10,6 +10,7 @@ const txtUid = document.querySelector("#txtUid");
 const txtMensaje = document.querySelector("#txtMensaje");
 const ulUsuarios = document.querySelector("#ulUsuarios");
 const ulMensajes = document.querySelector("#ulMensajes");
+const ulMensajesPriv = document.querySelector("#ulMensajesPriv");
 const btnSalir = document.querySelector("#btnSalir");
 
 const validarJWT = async () => {
@@ -46,17 +47,11 @@ const conectarSocket = async () => {
     console.log("Sockets offline");
   });
 
-  socket.on("recibir-mensajes", () => {
-    //TODO: Aqui se reciben los mensajes
-  });
+  socket.on("recibir-mensajes", dibujarMensajes);
 
-  socket.on("usuarios-activos", (payload) => {
-    dibujarUsuarios(payload);
-  });
+  socket.on("usuarios-activos", dibujarUsuarios);
 
-  socket.on("mensaje-privado", () => {
-    //TODO: Aqui se reciben los mensajes privados
-  });
+  socket.on("mensaje-privado", dibujarMensajePrivado);
 };
 
 const dibujarUsuarios = (usuarios = []) => {
@@ -72,6 +67,46 @@ const dibujarUsuarios = (usuarios = []) => {
   });
   ulUsuarios.innerHTML = usersHtml;
 };
+
+const dibujarMensajes = (mensajes = []) => {
+  let msgHtml = "";
+  mensajes.forEach(({ nombre, mensaje }) => {
+    msgHtml += `
+    <li>
+       <p>
+       <span class="text-primary">${nombre}: </span>
+       <span>${mensaje}</span>
+       </p>
+    </li>`;
+  });
+  ulMensajes.innerHTML = msgHtml;
+};
+
+const dibujarMensajePrivado = (mensaje) => {
+  let mensajeHtml = "";
+  const { de: nombre, mensaje: mensajePrivado } = mensaje;
+  mensajeHtml = `
+  <li>
+     <p>
+     <span class="text-danger">${nombre}: </span>
+     <span>${mensajePrivado}</span>
+     </p>
+  </li>`;
+  ulMensajesPriv.innerHTML += mensajeHtml;
+};
+
+txtMensaje.addEventListener("keyup", ({ keyCode }) => {
+  const mensaje = txtMensaje.value;
+  const uid = txtUid.value;
+  if (keyCode !== 13) {
+    return;
+  }
+  if (mensaje.length === 0) {
+    return;
+  }
+  socket.emit("enviar-mensaje", { mensaje, uid });
+  txtMensaje.value = "";
+});
 
 const main = async () => {
   await validarJWT();

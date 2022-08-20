@@ -14,32 +14,41 @@
   </head>
   <body class="container">
     <div class="row mt-5">
-      <div class="col-sm-6">
-        <h3>Enviar mensaje</h3>
-        <hr />
-        <input
-          type="text"
-          id="txtUid"
-          class="form-control mb-2"
-          placeholder="uid"
-          autocomplete="off"
-        />
-        <input
-          type="text"
-          id="txtMensaje"
-          class="form-control mb-2"
-          placeholder="mensaje"
-          autocomplete="off"
-        />
+      <div class="container col-sm-6">
+        <div class="col-sm-6">
+          <h3>Enviar mensaje</h3>
+          <hr />
+          <input
+            type="text"
+            id="txtUid"
+            class="form-control mb-2"
+            placeholder="uid"
+            autocomplete="off"
+          />
+          <input
+            type="text"
+            id="txtMensaje"
+            class="form-control mb-2"
+            placeholder="mensaje"
+            autocomplete="off"
+          />
 
-        <h3>Usuarios</h3>
-        <hr />
-        <ul id="ulUsuarios"></ul>
+          <h3>Usuarios</h3>
+          <hr />
+          <ul id="ulUsuarios"></ul>
+        </div>
       </div>
-      <div class="col-sm-6">
-        <h3>Chat Completo</h3>
-        <hr />
-        <ul id="ulMensajes"></ul>
+      <div class="container col-sm-6">
+        <div class="col-sm-6">
+          <h3>Chat Público</h3>
+          <hr />
+          <ul id="ulMensajes"></ul>
+        </div>
+        <div class="col-sm-6">
+          <h3>Chat Privado</h3>
+          <hr />
+          <ul id="ulMensajesPriv"></ul>
+        </div>
       </div>
     </div>
     <button id="btnSalir" class="btn btn-outline-danger">Logout</button>
