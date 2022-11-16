@@ -108,6 +108,11 @@ txtMensaje.addEventListener("keyup", ({ keyCode }) => {
   txtMensaje.value = "";
 });
 
+btnSalir.addEventListener("click", () => {
+  localStorage.removeItem("token");
+  window.location = "index.html";
+});
+
 const main = async () => {
   await validarJWT();
 };
